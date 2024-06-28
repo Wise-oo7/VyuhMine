@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.01, maximum-scale=10.0, user-scalable=yes">
+<title>Mobile-&#127775</title>
+<style>
+  body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-image: url('b.PNG'); /* Replace 'your-image.jpg' with the path to your image file */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+
+  .c, .c1, .c2, .c3 {
+    position: fixed;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(180deg); 
+  }
+
+  .c {
+    width: 400px; 
+    height: 640px; 
+    border: 1px solid red;
+  }
+
+  .c1, .c2, .c3 {
+    border: 1px solid Blue;
+  }
+
+  .c1 {
+    width: 340px; 
+    height: 580px; 
+  }
+
+  .c2 {
+    width: 240px; 
+    height: 480px; 
+  }
+
+  .c3 {
+    width: 140px; 
+    height: 380px; 
+    background-image: url("hh.jpg");
+    background-size: cover; 
+    background-position: center; 
+  }
+
+.button {
+    position: fixed;
+    width: 32px; /* Adjusted width */
+    height: 31px; /* Adjusted height */
+    background-color: white;
+    border: 1px solid black;
+    cursor: pointer;
+}
+
+  .button.red {
+    background-color: red;
+  }
+
+  .button.yellow {
+    background-color: yellow;
+  }
+
+  .button.blue {
+    background-color: blue;
+  }
+
+  .button-number {
+    position: absolute;
+    font-size: 12px;
+    color: red;
+    transform: rotate(-180deg); /* This rotates the numbers to match the rotated buttons */
+  }
+
+  /* Button positioning classes */
+  .top-left { top: -7px; left: -7px; }
+  .top-right { top: -7px; right: -7px; }
+  .bottom-left { bottom: -7px; left: -7px; }
+  .bottom-right { bottom: -7px; right: -7px; }
+  .top-middle { top: -7px; left: calc(50% - 7px); }
+  .bottom-middle { bottom: -7px; left: calc(50% - 7px); }
+  .left-middle { top: calc(50% - 7px); left: -7px; }
+  .right-middle { top: calc(50% - 7px); right: -7px; }
+
+  .line {
+    position: absolute;
+    background-color: black;
+    z-index: -1;
+  }
+
+  .horizontal-line {
+    height: 1px;
+  }
+
+  .vertical-line {
+    width: 1px;
+  }
+
+  .timer-box {
+    position: fixed;
+    top: 140px;
+    left: 135px;
+    padding: 6px;
+    background-color: white;
+    border: 1px solid red;
+  }
+
+  .time-watch {
+    font-size: 12px;
+  }
+
+  .note-button {
+    position: fixed;
+    top: 140px; 
+    left: 40px; 
+    padding: 5px 10px;
+    background-color: black;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+
+  .player-info-box {
+    position: fixed;
+    background-color: white;
+    border: 1px solid black;
+    padding: 3px;
+    width: 140px;
+    top: 20px;
+    left: 40px;
+  }
+
+  .player-info-box2 {
+    position: fixed;
+    background-color: white;
+    border: 1px solid black;
+    padding: 3px;
+    width: 140px;
+    top: 20px;
+    left: 200px;
+  }
+
+  .player-info-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1px;
+  }
+
+  .player-info-item input[type="text"] {
+    width: 80px;
+  }
+
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+  }
+
+  .modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px;
+  }
+
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+</style>
+</head>
+<body>
+
+<div class="player-info-box">
+  <div class="player-info-item">
+    <span>Player Name:</span>
+    <input type="text" id="playerName" value="Player 1">
+  </div>
+  <div class="player-info-item">
+    <span>Dice Color:</span>
+    <select id="diceColor">
+      <option value="red">Red</option>
+      <option value="yellow">Yellow</option>
+      <option value="blue">Blue</option>
+    </select>
+  </div>
+  <div class="player-info-item">
+    <span>Player Points:</span>
+    <button onclick="updatePoints(-1, 'playerPoints')">-</button>
+    <span id="playerPoints">0</span>
+    <button onclick="updatePoints(1, 'playerPoints')">+</button>
+  </div>
+</div>
+
+<div class="player-info-box2">
+  <div class="player-info-item">
+    <span>Player Name:</span>
+    <input type="text" id="playerName2" value="Player 2">
+  </div>
+  <div class="player-info-item">
+    <span>Dice Color:</span>
+    <select id="diceColor2">
+      <option value="yellow">Yellow</option>
+      <option value="red">Red</option>
+      <option value="blue">Blue</option>
+    </select>
+  </div>
+  <div class="player-info-item">
+    <span>Player Points:</span>
+    <button onclick="updatePoints(-1, 'playerPoints2')">-</button>
+    <span id="playerPoints2">0</span>
+    <button onclick="updatePoints(1, 'playerPoints2')">+</button>
+  </div>
+</div>
+
+<div class="c"></div>
+<div class="c1">
+  <button class="button top-left" onclick="changeColor(this)"></button>
+  <span class="button-number top-left">24</span>
+  <button class="button top-right" onclick="changeColor(this)"></button>
+  <span class="button-number top-right">22</span>
+  <button class="button bottom-left" onclick="changeColor(this)"></button>
+  <span class="button-number bottom-left">3</span>
+  <button class="button bottom-right" onclick="changeColor(this)"></button>
+  <span class="button-number bottom-right">1</span>
+  <button class="button top-middle" onclick="changeColor(this)"></button>
+  <span class="button-number top-middle">23</span>
+  <button class="button bottom-middle" onclick="changeColor(this)"></button>
+  <span class="button-number bottom-middle">2</span>
+  <button class="button left-middle" onclick="changeColor(this)"></button>
+  <span class="button-number left-middle">15</span>
+  <button class="button right-middle" onclick="changeColor(this)"></button>
+  <span class="button-number right-middle">10</span>
+  <div class="line horizontal-line" style="top: 50%; left: 0; width: 100%;"></div>
+  <div class="line vertical-line" style="left: 50%; top: 0; height: 100%;"></div>
+</div>
+
+<div class="c2">
+  <button class="button top-left" onclick="changeColor(this)"></button>
+  <span class="button-number top-left">21</span>
+  <button class="button top-right" onclick="changeColor(this)"></button>
+  <span class="button-number top-right">19</span>
+  <button class="button bottom-left" onclick="changeColor(this)"></button>
+  <span class="button-number bottom-left">6</span>
+  <button class="button bottom-right" onclick="changeColor(this)"></button>
+  <span class="button-number bottom-right">4</span>
+  <button class="button top-middle" onclick="changeColor(this)"></button>
+  <span class="button-number top-middle">20</span>
+  <button class="button bottom-middle" onclick="changeColor(this)"></button>
+  <span class="button-number bottom-middle">5</span>
+  <button class="button left-middle" onclick="changeColor(this)"></button>
+  <span class="button-number left-middle">14</span>
+  <button class="button right-middle" onclick="changeColor(this)"></button>
+  <span class="button-number right-middle">11</span>
+  <div class="line horizontal-line" style="top: 50%; left: 0; width: 100%;"></div>
+  <div class="line vertical-line" style="left: 50%; top: 0; height: 100%;"></div>
+</div>
+
+<div class="c3">
+  <button class="button top-left" onclick="changeColor(this)"></button>
+  <span class="button-number top-left">18</span>
+  <button class="button top-right" onclick="changeColor(this)"></button>
+  <span class="button-number top-right">16</span>
+  <button class="button bottom-left" onclick="changeColor(this)"></button>
+  <span class="button-number bottom-left">9</span>
+  <button class="button bottom-right" onclick="changeColor(this)"></button>
+  <span class="button-number bottom-right">7</span>
+  <button class="button top-middle" onclick="changeColor(this)"></button>
+  <span class="button-number top-middle">17</span>
+  <button class="button bottom-middle" onclick="changeColor(this)"></button>
+  <span class="button-number bottom-middle">8</span>
+  <button class="button left-middle" onclick="changeColor(this)"></button>
+  <span class="button-number left-middle">13</span>
+  <button class="button right-middle" onclick="changeColor(this)"></button>
+  <span class="button-number right-middle">12</span>
+  <div class="line horizontal-line" style="top: 50%; left: 0; width: 100%;"></div>
+  <div class="line vertical-line" style="left: 50%; top: 0; height: 100%;"></div>
+</div>
+
+<div class="timer-box">
+  <div class="time-watch" id="timeWatch">00:00:00</div>
+</div>
+
+<button class="note-button" onclick="openModal()">Game Rules</button>
+
+<!-- The Modal -->
+<div id="myModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <h2>Game Rules!</h2>
+<p>1. प्रत्येक खिलाड़ी के पास 9 Dice होते हैं।</p>
+<p>2. केवल 2 खिलाड़ी खेल सकते हैं।</p>
+<p>3. हम नक्शे पर एक-एक करके Dice रखेंगे।</p>
+<p>4. हमें एक ट्रिक बनानी है! (यानी एक ही रंग के 3 Dice एक पंक्ति में रखना)।</p>
+<p>5. प्रत्येक खिलाड़ी के 9 Dice रखने के बाद, हम Dice को दाएं-बाएं और ऊपर-नीचे हिला सकते हैं।</p>
+<p>6. ट्रिक बनते ही हम प्रतिद्वंद्वी का एक Dice उठा लेते हैं, फिर एक अंक गिना जाएगा।</p>
+<p>7. बनी हुई ट्रिक में से नहीं उठा सकते।</p>
+<p>8. हम ट्रिक तोड़ और बना सकते हैं।</p>
+<p>9. जो सबसे ज्यादा Dice इकट्ठा करेगा, वही विजेता होगा ।</p>
+
+<p>"इस खेल में आपकी असाधारण भागीदारी आपकी बुद्धिमत्ता और तीव्र मस्तिष्क का परिचायक है!🍿</p>
+
+<p> "अपने मस्तिष्क को इसी तरह Sharp करते रहें"🍿</p>
+
+	  <p>-----------&&&----------</p>
+	  
+    <p>1. Each player has 9 Dices.</p>
+	<p>2. Only 2 players can play.</p>
+	<p>3. We will place Dice on the map one by one.</p>
+	<p>4. We need to form a trick! place 3 Dice of the same color in a row.</p>
+	<p>5. After placing all 9 Dice, we can move the Dice left-right and up-down.</p>
+	<p>6. Once a trick is formed, we take one Dice from the opponent, and then one point is counted.</p>
+	<p>7. Dice from an already formed trick cannot be taken.</p>
+	<p>8. We can break and form new tricks.</p>
+	<p>9.The player who collects the most Dice will be the winner.</p>
+	
+  </div>
+</div>
+
+<script>
+  function changeColor(button) {
+    if (button.classList.contains('red')) {
+      button.classList.remove('red');
+      button.classList.add('yellow');
+    } else if (button.classList.contains('yellow')) {
+      button.classList.remove('yellow');
+      button.classList.add('white');
+    } else if (button.classList.contains('white')) {
+      button.classList.remove('white');
+      button.classList.add('red');
+    } else {
+      button.classList.add('red');
+    }
+  }
+
+  function updatePoints(amount, playerPointsId) {
+    var playerPointsSpan = document.getElementById(playerPointsId);
+    var currentPoints = parseInt(playerPointsSpan.textContent);
+    currentPoints = Math.max(0, currentPoints + amount);
+    playerPointsSpan.textContent = currentPoints;
+  }
+
+  var timeWatch = document.getElementById('timeWatch');
+  var startTime = new Date().getTime();
+  setInterval(function() {
+    var elapsedTime = new Date().getTime() - startTime;
+    var hours = Math.floor(elapsedTime / (1000 * 60 * 60));
+    var minutes = Math.floor((elapsedTime % (1000 * 60 * 60)) / (1000 * 60));
+    var seconds = Math.floor((elapsedTime % (1000 * 60)) / 1000);
+    timeWatch.textContent = `${formatTime(hours)}:${formatTime(minutes)}:${formatTime(seconds)}`;
+  }, 1000);
+
+  function formatTime(num) {
+    return num.toString().padStart(2, '0');
+  }
+
+  function openModal() {
+    document.getElementById("myModal").style.display = "block";
+  }
+
+  function closeModal() {
+    document.getElementById("myModal").style.display = "none";
+  }
+
+  window.addEventListener('beforeunload', function(event) {
+    event.preventDefault();
+    event.returnValue = 'If you refresh the page, the game will start from the beginning.';
+  });
+</script>
+
+</body>
+</html>
